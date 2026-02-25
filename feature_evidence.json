@@ -1,0 +1,157 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-teacher-login-page-as-the-app-entry-screen-it-must-display-a-college-school-logo-placeholder-at-the-top-the-title-automatic-question-paper-generation-system-an-email-username-input-field-a-password-input-field-a-login-button-and-a-forgot-password-link-authentication-is-simulated-client-side-no-internet-identity-required-any-non-empty-credentials-proceed-to-the-dashboard-the-page-must-use-the-academic-navy-blue-white-and-light-grey-palette-with-a-clean-minimal-background",
+      "featureTitle": "Create a Teacher Login Page as the app entry screen. It must display a college/school logo placeholder at the top, the title 'Automatic Question Paper Generation System', an Email/Username input field, a Password input field, a Login button, and a 'Forgot Password' link. Authentication is simulated client-side (no Internet Identity required); any non-empty credentials proceed to the Dashboard. The page must use the academic navy blue, white, and light grey palette with a clean, minimal background.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/LoginPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-dashboard-page-displayed-after-login-it-must-include-1-a-top-header-with-a-welcome-message-welcome-teacher-name-2-a-left-navigation-sidebar-with-links-dashboard-add-questions-question-bank-generate-paper-generated-papers-logout-3-three-summary-stat-cards-showing-total-subjects-total-questions-and-papers-generated-with-icons-4-a-database-flow-visualization-section-showing-the-pipeline-subjects-question-categories-stored-questions-paper-generation-engine-pdf-output-all-counts-must-be-fetched-from-the-backend-canister",
+      "featureTitle": "Create a Dashboard Page displayed after login. It must include: (1) A top header with a welcome message 'Welcome, Teacher Name'; (2) A left navigation sidebar with links: Dashboard, Add Questions, Question Bank, Generate Paper, Generated Papers, Logout; (3) Three summary stat cards showing Total Subjects, Total Questions, and Papers Generated with icons; (4) A database flow visualization section showing the pipeline: Subjects → Question Categories → Stored Questions → Paper Generation Engine → PDF Output. All counts must be fetched from the backend canister.",
+      "files": [
+        "frontend/src/components/DashboardLayout.tsx",
+        "frontend/src/components/Sidebar.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-an-add-questions-page-with-a-database-connected-form-the-form-must-include-1-subject-dropdown-populated-from-backend-subjects-2-question-category-dropdown-2-marks-4-marks-mcq-6-marks-8-marks-3-question-text-area-4-four-option-input-fields-option-a-b-c-d-and-a-correct-answer-selector-visible-only-when-mcq-category-is-selected-5-difficulty-level-selector-easy-medium-hard-6-a-save-to-database-button-that-calls-the-backend-addquestion-method-7-a-success-popup-toast-on-save-the-page-must-also-support-editing-an-existing-question-when-navigated-to-with-a-question-id-pre-fills-all-fields",
+      "featureTitle": "Create an Add Questions Page with a database-connected form. The form must include: (1) Subject dropdown populated from backend subjects; (2) Question Category dropdown (2 Marks, 4 Marks, MCQ, 6 Marks, 8 Marks); (3) Question text area; (4) Four option input fields (Option A, B, C, D) and a Correct Answer selector, visible only when MCQ category is selected; (5) Difficulty Level selector (Easy, Medium, Hard); (6) A 'Save to Database' button that calls the backend addQuestion method; (7) A success popup/toast on save. The page must also support editing an existing question when navigated to with a question ID (pre-fills all fields).",
+      "files": [
+        "frontend/src/pages/AddQuestionsPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-question-bank-page-that-lists-all-questions-stored-in-the-backend-filterable-by-subject-category-and-difficulty-each-question-row-must-have-edit-and-delete-actions-edit-navigates-to-the-add-questions-page-pre-filled-with-that-question-s-data-delete-calls-the-backend-deletequestion-method-with-a-confirmation-dialog-additionally-provide-a-manage-subjects-sub-section-accessible-from-the-sidebar-or-a-tab-where-subjects-can-be-added-edited-or-deleted",
+      "featureTitle": "Create a Question Bank Page that lists all questions stored in the backend, filterable by Subject, Category, and Difficulty. Each question row must have Edit and Delete actions. Edit navigates to the Add Questions Page pre-filled with that question's data. Delete calls the backend deleteQuestion method with a confirmation dialog. Additionally, provide a Manage Subjects sub-section (accessible from the sidebar or a tab) where subjects can be added, edited, or deleted.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/ManageSubjectsPage.tsx",
+        "frontend/src/pages/QuestionBankPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-generate-question-paper-page-it-must-include-1-select-subject-dropdown-from-backend-data-2-exam-duration-input-e-g-1-hour-2-hours-3-hours-3-total-marks-input-4-number-of-questions-selectors-per-category-2-marks-4-marks-mcq-6-marks-8-marks-5-a-live-marks-calculator-showing-sum-of-selected-question-marks-vs-total-marks-6-a-generate-paper-button-that-calls-the-backend-to-auto-select-questions-from-the-stored-question-bank-and-produces-5-paper-sets-set-a-b-c-d-e-by-shuffling-randomizing-question-order",
+      "featureTitle": "Create a Generate Question Paper Page. It must include: (1) Select Subject dropdown from backend data; (2) Exam Duration input (e.g., 1 hour, 2 hours, 3 hours); (3) Total Marks input; (4) Number-of-questions selectors per category (2 Marks, 4 Marks, MCQ, 6 Marks, 8 Marks); (5) A live marks calculator showing sum of selected question marks vs. total marks; (6) A 'Generate Paper' button that calls the backend to auto-select questions from the stored question bank and produces 5 paper sets (Set A, B, C, D, E) by shuffling/randomizing question order.",
+      "files": [
+        "frontend/src/pages/GeneratePaperPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-generated-papers-page-and-a-paper-preview-page-the-generated-papers-page-lists-all-stored-paper-sets-grouped-by-subject-with-metadata-subject-duration-total-marks-set-labels-date-clicking-a-set-opens-the-paper-preview-page-which-renders-1-a-formal-academic-header-with-college-name-and-logo-2-subject-name-exam-duration-and-total-marks-3-section-a-mcq-questions-with-options-a-b-c-d-4-section-b-2-mark-and-4-mark-questions-5-section-c-6-mark-and-8-mark-questions-6-proper-sequential-numbering-the-preview-must-include-a-download-pdf-button-that-uses-the-browser-print-api-or-a-client-side-pdf-library-to-export-the-current-set-and-buttons-to-switch-between-set-a-b-c-d-e",
+      "featureTitle": "Create a Generated Papers Page and a Paper Preview Page. The Generated Papers page lists all stored paper sets grouped by subject with metadata (subject, duration, total marks, set labels, date). Clicking a set opens the Paper Preview Page which renders: (1) A formal academic header with college name and logo; (2) Subject name, exam duration, and total marks; (3) Section A – MCQ questions with options A/B/C/D; (4) Section B – 2 Mark and 4 Mark questions; (5) Section C – 6 Mark and 8 Mark questions; (6) Proper sequential numbering. The preview must include a 'Download PDF' button that uses the browser print API or a client-side PDF library to export the current set, and buttons to switch between Set A, B, C, D, E.",
+      "files": [
+        "frontend/src/pages/GeneratedPapersPage.tsx",
+        "frontend/src/pages/PaperPreviewPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-consistent-professional-academic-visual-theme-across-all-pages-using-the-following-design-specifications-primary-color-navy-blue-1e3a5f-accent-light-blue-4a90d9-background-very-light-grey-f4f6f9-white-cards-with-soft-box-shadows-and-8-12px-border-radius-poppins-or-inter-font-minimal-academic-icons-from-lucide-react-consistent-16-24px-spacing-grid-responsive-sidebar-layout-that-collapses-on-mobile-and-rounded-buttons-with-subtle-shadows",
+      "featureTitle": "Apply a consistent, professional academic visual theme across all pages using the following design specifications: Primary color Navy Blue (#1E3A5F), Accent Light Blue (#4A90D9), Background Very Light Grey (#F4F6F9), white cards with soft box-shadows and 8–12px border-radius, Poppins or Inter font, minimal academic icons (from lucide-react), consistent 16–24px spacing grid, responsive sidebar layout that collapses on mobile, and rounded buttons with subtle shadows.",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-a-college-logo-placeholder-image-academic-shield-crest-style-in-navy-blue-and-gold-tones-and-a-login-page-background-image-subtle-geometric-academic-pattern-in-light-grey-and-navy-blue-to-be-used-as-static-assets",
+      "featureTitle": "Generate a college logo placeholder image (academic shield/crest style in navy blue and gold tones) and a login page background image (subtle geometric academic pattern in light grey and navy blue) to be used as static assets.",
+      "files": [
+        "frontend/src/pages/LoginPage.tsx",
+        "frontend/src/pages/PaperPreviewPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "kind": "build_request",
+  "title": "Automatic Question Paper Generation System – Full UI",
+  "projectName": "QuestionPaper Pro",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement a Motoko backend actor that stores subjects, questions, and generated paper records. The actor must support: (1) CRUD for subjects (id, name, code, description); (2) CRUD for questions (id, subjectId, questionText, category: #MCQ | #Marks2 | #Marks4 | #Marks6 | #Marks8, difficulty: #Easy | #Medium | #Hard, options: [Text] for MCQ, correctOption: ?Nat); (3) Storing generated paper sets (id, subjectId, examDuration, totalMarks, sections, setLabel: A-E, createdAt). Pre-seed engineering subjects: Discrete Mathematics, Operating System, Microprocessor, Data Structures, Computer Networks, Database Management Systems, Theory of Computation, Digital Electronics, Computer Architecture, Software Engineering.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "database connectivity concept",
+          "engineering subjects like discrete mathematics, operating system, microprocessor etc etc"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Subjects can be added, listed, updated, and deleted via canister calls.",
+        "Questions can be added, listed, updated, and deleted; each question is associated with a subject.",
+        "Pre-seeded engineering subjects exist on first deploy.",
+        "Generated paper sets are persisted and retrievable by subject or paper ID.",
+        "All data survives canister upgrades (stable storage)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a Teacher Login Page as the app entry screen. It must display a college/school logo placeholder at the top, the title 'Automatic Question Paper Generation System', an Email/Username input field, a Password input field, a Login button, and a 'Forgot Password' link. Authentication is simulated client-side (no Internet Identity required); any non-empty credentials proceed to the Dashboard. The page must use the academic navy blue, white, and light grey palette with a clean, minimal background.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Teacher Login Page",
+          "College/School logo at top",
+          "Title: Automatic Question Paper Generation System",
+          "Email / Username field",
+          "Password field",
+          "Login button",
+          "Forgot Password link",
+          "Clean academic background"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Login page is the default route ('/login' or '/').",
+        "College logo placeholder and system title are prominently displayed.",
+        "Email and password fields are present and functional.",
+        "Login button navigates to the Dashboard on non-empty input.",
+        "'Forgot Password' link is visible (can show a toast or modal).",
+        "Page is responsive and follows navy blue / white / light grey theme."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create a Dashboard Page displayed after login. It must include: (1) A top header with a welcome message 'Welcome, Teacher Name'; (2) A left navigation sidebar with links: Dashboard, Add Questions, Question Bank, Generate Paper, Generated Papers, Logout; (3) Three summary stat cards showing Total Subjects, Total Questions, and Papers Generated with icons; (4) A database flow visualization section showing the pipeline: Subjects → Question Categories → Stored Questions → Paper Generation Engine → PDF Output. All counts must be fetched from the backend canister.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Dashboard Page",
+          "Welcome message",
+          "Navigation sidebar",
+          "Cards showing: Total Subjects, Total Questions, Papers Generated",
+          "database structure visualization in dashboard showing: Subjects → Question Categories → Stored Questions → Paper Generation Engine → PDF Output"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard is accessible at '/dashboard'.",
+        "Sidebar navigation links are present and functional.",
+        "Stat cards display live counts fetched from the backend.",
+        "Database flow pipeline visualization is rendered graphically.",
+        "Logout clears session and redirects to Login."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Create an Add Questions Page with a database-connected form. The form must include: (1) Subject dropdown populated from backend subjects; (2) Question Category dropdown (2 Marks, 4 Marks, MCQ, 6 Marks, 8 Marks); (3) Question text area; (4) Four option input fields (Option A, B, C, D) and a Correct Answer selector, visible only when MCQ category is selected; (5) Difficulty Level selector (Easy, Medium, Hard); (6) A 'Save to Database' button that calls the backend addQuestion method; (7) A success popup/toast on save. The page must also support editing an existing question when navigated to with a question ID (pre-fills all fields).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Add Questions Page (Database Connected Form UI)",
+          "Subject dropdown",
+          "Question Category dropdown",
+          "Question Text area",
+          "Option fields (visible only if MCQ selected)",
+          "Difficulty Level",
+          "Save to Database button",
+          "Success message popup",
+          "provide access to change or edit or add subjects and questions in it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Subject dropdown lists all subjects from the backend.",
+        "MCQ option fields appear only when MCQ category is selected.",
+        "Submitted questions are persisted to the backend.",
+        "A success toast/popup confirms save.",
+        "When opened with an existing question ID, all fields are pre-filled for editing.",
+        "Form validates required fields before submission."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Create a Question Bank Page that lists all questions stored in the backend, filterable by Subject, Category, and Difficulty. Each question row must have Edit and Delete actions. Edit navigates to the Add Questions Page pre-filled with that question's data. Delete calls the backend deleteQuestion method with a confirmation dialog. Additionally, provide a Manage Subjects sub-section (accessible from the sidebar or a tab) where subjects can be added, edited, or deleted.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Question Bank",
+          "provide access to change or edit or add subjects and questions in it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Question Bank page lists all questions with subject, category, difficulty, and question text columns.",
+        "Filter controls for subject, category, and difficulty work correctly.",
+        "Edit action navigates to the Add Questions form pre-filled.",
+        "Delete action removes the question after confirmation.",
+        "Manage Subjects UI allows adding, editing, and deleting subjects.",
+        "Changes to subjects/questions are immediately reflected in the list."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Create a Generate Question Paper Page. It must include: (1) Select Subject dropdown from backend data; (2) Exam Duration input (e.g., 1 hour, 2 hours, 3 hours); (3) Total Marks input; (4) Number-of-questions selectors per category (2 Marks, 4 Marks, MCQ, 6 Marks, 8 Marks); (5) A live marks calculator showing sum of selected question marks vs. total marks; (6) A 'Generate Paper' button that calls the backend to auto-select questions from the stored question bank and produces 5 paper sets (Set A, B, C, D, E) by shuffling/randomizing question order.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Generate Question Paper Page",
+          "Select Subject dropdown",
+          "Select exam duration",
+          "Enter total marks",
+          "Select number of questions from each category (2m, 4m, MCQ, 6m, 8m)",
+          "Generate Paper button",
+          "System should show database-based automatic selection concept",
+          "Generate 5 Different PDF Sets (Set A, Set B, Set C, Set D, Set E)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All form fields are present and validated.",
+        "Live marks calculator updates in real time as question counts change.",
+        "Generate Paper button is disabled when marks do not balance.",
+        "On generation, 5 sets (A–E) are created by randomly ordering questions from the bank.",
+        "Generated papers are saved to the backend and visible in the Generated Papers section."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Create a Generated Papers Page and a Paper Preview Page. The Generated Papers page lists all stored paper sets grouped by subject with metadata (subject, duration, total marks, set labels, date). Clicking a set opens the Paper Preview Page which renders: (1) A formal academic header with college name and logo; (2) Subject name, exam duration, and total marks; (3) Section A – MCQ questions with options A/B/C/D; (4) Section B – 2 Mark and 4 Mark questions; (5) Section C – 6 Mark and 8 Mark questions; (6) Proper sequential numbering. The preview must include a 'Download PDF' button that uses the browser print API or a client-side PDF library to export the current set, and buttons to switch between Set A, B, C, D, E.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Generated Question Paper Preview Page",
+          "Formal academic layout",
+          "College name header",
+          "Section A (MCQ)",
+          "Section B (2 & 4 Marks)",
+          "Section C (6 & 8 Marks)",
+          "Proper numbering format",
+          "Download PDF button",
+          "Generate 5 Different PDF Sets (Set A, Set B, Set C, Set D, Set E)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated Papers page lists all stored papers with subject and set info.",
+        "Preview renders all three sections with correct questions.",
+        "Set A/B/C/D/E switcher tabs are visible and functional.",
+        "Download PDF button triggers a printable/downloadable PDF of the selected set.",
+        "Academic header with college name and logo placeholder is shown on the preview."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Apply a consistent, professional academic visual theme across all pages using the following design specifications: Primary color Navy Blue (#1E3A5F), Accent Light Blue (#4A90D9), Background Very Light Grey (#F4F6F9), white cards with soft box-shadows and 8–12px border-radius, Poppins or Inter font, minimal academic icons (from lucide-react), consistent 16–24px spacing grid, responsive sidebar layout that collapses on mobile, and rounded buttons with subtle shadows.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Font: Poppins / Inter",
+          "Primary Color: Navy Blue",
+          "Accent: Light Blue",
+          "Background: Very Light Grey",
+          "Buttons: Rounded with subtle shadow",
+          "Icons: Minimal academic icons",
+          "grid system, consistent typography, soft shadows, rounded cards, professional UI components, and responsive layout"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All pages use Navy Blue, Light Blue, and Light Grey palette consistently.",
+        "Poppins or Inter font is loaded and applied globally.",
+        "Cards have rounded corners and soft shadows.",
+        "Sidebar collapses or becomes a hamburger menu on mobile viewports.",
+        "Buttons are rounded with hover shadow effects."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Generate a college logo placeholder image (academic shield/crest style in navy blue and gold tones) and a login page background image (subtle geometric academic pattern in light grey and navy blue) to be used as static assets.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "College/School logo at top",
+          "Clean academic background"
+        ]
+      },
+      "acceptanceCriteria": [
+        "College logo is displayed on the Login page and in the paper preview header.",
+        "Login page has a visually appealing academic background.",
+        "Both assets are served from frontend/public/assets/generated."
+      ]
+    }
+  ],
+  "constraints": [
+    "All Motoko logic must reside in a single main actor (backend/main.mo).",
+    "Do not use Internet Identity; use simulated client-side session for login.",
+    "Do not use external databases or cloud services; all data is stored in the Motoko actor with stable variables.",
+    "Immutable frontend paths (hooks, main.tsx, ui components) must not be modified.",
+    "PDF generation must be entirely client-side (browser print API or client-side library); no backend PDF rendering."
+  ],
+  "nonGoals": [
+    "Real email-based authentication or password reset flows.",
+    "Multi-teacher or multi-role access control.",
+    "External cloud storage for generated PDFs.",
+    "Real-time collaborative editing.",
+    "Mobile native application."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Academic shield/crest logo illustration in navy blue and gold tones on a white background (college-logo.dim_200x200.png)",
+      "Subtle geometric academic pattern background in very light grey with faint navy blue lines and dots (login-bg.dim_1920x1080.png)"
+    ],
+    "edits": []
+  }
+}

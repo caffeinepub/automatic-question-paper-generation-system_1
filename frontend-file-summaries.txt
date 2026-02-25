@@ -1,0 +1,3 @@
+{
+  "frontend/src/pages/PaperPreviewPage.tsx": "Complete paper preview page that displays a generated question paper in formal academic layout with Set A–E switcher tabs, three sections (MCQ, Short Answer, Long Answer), college header with logo, and Print/Download PDF buttons using window.print()."
+}

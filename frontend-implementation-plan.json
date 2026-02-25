@@ -1,0 +1,192 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Automatic Question Paper Generation System – Full UI",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "summary": "Create Teacher Login Page as app entry screen with simulated authentication",
+      "acceptanceCriteria": [
+        "Login page is the default route ('/login' or '/').",
+        "College logo placeholder and system title are prominently displayed.",
+        "Email and password fields are present and functional.",
+        "Login button navigates to the Dashboard on non-empty input.",
+        "'Forgot Password' link is visible (can show a toast or modal).",
+        "Page is responsive and follows navy blue / white / light grey theme."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "create",
+          "description": "Create Login page component with college logo placeholder (referencing frontend/public/assets/generated/college-logo.dim_200x200.png), system title 'Automatic Question Paper Generation System', email/username and password input fields, Login button with client-side validation (any non-empty credentials proceed), 'Forgot Password' link (displays toast), and academic background image (referencing frontend/public/assets/generated/login-bg.dim_1920x1080.png). Apply navy blue, white, and light grey theme. Store session flag in localStorage on successful login and navigate to /dashboard."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Configure React Router with routes: '/' and '/login' pointing to LoginPage (default), '/dashboard' to Dashboard (protected), '/add-question' and '/add-question/:id' to AddQuestionsPage (protected), '/question-bank' to QuestionBankPage (protected), '/manage-subjects' to ManageSubjectsPage (protected), '/generate-paper' to GeneratePaperPage (protected), '/generated-papers' to GeneratedPapersPage (protected), '/paper-preview/:paperId' to PaperPreviewPage (protected). Implement route protection wrapper that checks localStorage session and redirects to /login if not authenticated."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Create Dashboard Page with navigation sidebar, stat cards, and database flow visualization",
+      "acceptanceCriteria": [
+        "Dashboard is accessible at '/dashboard'.",
+        "Sidebar navigation links are present and functional.",
+        "Stat cards display live counts fetched from the backend.",
+        "Database flow pipeline visualization is rendered graphically.",
+        "Logout clears session and redirects to Login."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Sidebar.tsx",
+          "operation": "create",
+          "description": "Create reusable Sidebar component with navigation links: Dashboard, Add Questions, Question Bank, Generate Paper, Generated Papers, and Logout. Use lucide-react icons for each link. Implement responsive behavior (collapses to hamburger menu on mobile). Logout clears localStorage session and navigates to /login. Style with navy blue background and white text."
+        },
+        {
+          "path": "frontend/src/components/DashboardLayout.tsx",
+          "operation": "create",
+          "description": "Create layout wrapper component that includes top header with 'Welcome, Teacher Name' greeting and Sidebar component. This layout wraps all authenticated pages. Use flexbox for sidebar + content area layout."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Create Dashboard page component wrapped in DashboardLayout. Display three stat cards showing Total Subjects, Total Questions, and Papers Generated with icons from lucide-react. Fetch counts by calling backend.getAllSubjects() and backend.getAllQuestions() on mount, calculate papers count from stored papers. Include database flow visualization section showing pipeline graphic: Subjects → Question Categories → Stored Questions → Paper Generation Engine → PDF Output using SVG or CSS grid with arrows and boxes styled in navy blue and light blue."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Create Add Questions Page with database-connected form supporting create and edit modes",
+      "acceptanceCriteria": [
+        "Subject dropdown lists all subjects from the backend.",
+        "MCQ option fields appear only when MCQ category is selected.",
+        "Submitted questions are persisted to the backend.",
+        "A success toast/popup confirms save.",
+        "When opened with an existing question ID, all fields are pre-filled for editing.",
+        "Form validates required fields before submission."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AddQuestionsPage.tsx",
+          "operation": "create",
+          "description": "Create Add Questions page component wrapped in DashboardLayout. Include form with: Subject dropdown (populated by calling backend.getAllSubjects()), Question Category dropdown (2 Marks → Category.Marks2, 4 Marks → Category.Marks4, MCQ → Category.MCQ, 6 Marks → Category.Marks6, 8 Marks → Category.Marks8), Question text area, four Option input fields (A, B, C, D) and Correct Answer selector (visible only when MCQ category selected), Difficulty Level selector (Easy, Medium, Hard), and 'Save to Database' button. On submit, call backend.addQuestion() for new questions or backend.updateQuestion() for edits. Use useParams to detect edit mode (?id parameter), fetch question data via backend.getAllQuestions() and filter by id to pre-fill form. Show success toast on save using shadcn/ui Toast component. Validate all required fields before submission."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Create Question Bank Page with filtering, edit/delete actions, and Manage Subjects sub-section",
+      "acceptanceCriteria": [
+        "Question Bank page lists all questions with subject, category, difficulty, and question text columns.",
+        "Filter controls for subject, category, and difficulty work correctly.",
+        "Edit action navigates to the Add Questions form pre-filled.",
+        "Delete action removes the question after confirmation.",
+        "Manage Subjects UI allows adding, editing, and deleting subjects.",
+        "Changes to subjects/questions are immediately reflected in the list."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/QuestionBankPage.tsx",
+          "operation": "create",
+          "description": "Create Question Bank page component wrapped in DashboardLayout. Fetch all questions by calling backend.getAllQuestions() on mount. Display questions in a table with columns: Subject Name (lookup from subjects), Category, Difficulty, Question Text, and Actions (Edit/Delete buttons). Implement filter dropdowns for Subject, Category, and Difficulty that filter the displayed questions client-side. Edit button navigates to /add-question/:id. Delete button shows confirmation dialog using shadcn/ui AlertDialog, then calls backend.deleteQuestion(id) and refreshes the list. Include a 'Manage Subjects' button or tab that toggles a Manage Subjects section below the question table."
+        },
+        {
+          "path": "frontend/src/pages/ManageSubjectsPage.tsx",
+          "operation": "create",
+          "description": "Create Manage Subjects page component (or inline section) wrapped in DashboardLayout. Fetch subjects by calling backend.getAllSubjects() on mount. Display subjects in a table with columns: Name, Code, Description, and Actions (Edit/Delete). Include an 'Add Subject' button that opens a form dialog using shadcn/ui Dialog. Form includes Name, Code, and Description fields. On submit, call backend.addSubject() for new or backend.updateSubject() for edits. Delete button shows confirmation dialog, then calls backend.deleteSubject(id) and refreshes. Use shadcn/ui Table, Dialog, and Button components."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire ManageSubjectsPage route '/manage-subjects' into the router as a protected route, or keep Manage Subjects as an inline section within QuestionBankPage accessible via tab/button toggle."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Create Generate Question Paper Page with form, live marks calculator, and 5-set generation",
+      "acceptanceCriteria": [
+        "All form fields are present and validated.",
+        "Live marks calculator updates in real time as question counts change.",
+        "Generate Paper button is disabled when marks do not balance.",
+        "On generation, 5 sets (A–E) are created by randomly ordering questions from the bank.",
+        "Generated papers are saved to the backend and visible in the Generated Papers section."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/GeneratePaperPage.tsx",
+          "operation": "create",
+          "description": "Create Generate Paper page component wrapped in DashboardLayout. Include form with: Select Subject dropdown (from backend.getAllSubjects()), Exam Duration input (text or dropdown: 1 hour, 2 hours, 3 hours), Total Marks input (number), and Number-of-questions selectors per category (2 Marks, 4 Marks, MCQ, 6 Marks, 8 Marks) as number inputs. Implement live marks calculator that computes: (num2Marks * 2) + (num4Marks * 4) + (numMCQ * 1) + (num6Marks * 6) + (num8Marks * 8) and displays sum vs. Total Marks. Disable 'Generate Paper' button if calculated marks ≠ total marks. On submit, call backend.generatePaper(subjectId, examDuration, totalMarks, numOfQuestionsPerCategory) which returns a paper ID. Display success message and navigate to /generated-papers or /paper-preview/:paperId. Use shadcn/ui Input, Select, Button components."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Create Generated Papers Page listing stored papers and Paper Preview Page with PDF download and set switching",
+      "acceptanceCriteria": [
+        "Generated Papers page lists all stored papers with subject and set info.",
+        "Preview renders all three sections with correct questions.",
+        "Set A/B/C/D/E switcher tabs are visible and functional.",
+        "Download PDF button triggers a printable/downloadable PDF of the selected set.",
+        "Academic header with college name and logo placeholder is shown on the preview."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/GeneratedPapersPage.tsx",
+          "operation": "create",
+          "description": "Create Generated Papers page component wrapped in DashboardLayout. Fetch all generated paper records (stored in frontend state or via a new backend method if added). Display papers grouped by subject with metadata: subject name, exam duration, total marks, set labels (A-E), and creation date. Each paper row has a 'View' button that navigates to /paper-preview/:paperId. Use shadcn/ui Table or Card components to display the list. If backend does not expose a method to list papers, store generated paper IDs and metadata in localStorage temporarily and display from there."
+        },
+        {
+          "path": "frontend/src/pages/PaperPreviewPage.tsx",
+          "operation": "create",
+          "description": "Create Paper Preview page component (not wrapped in DashboardLayout for cleaner print). Use useParams to get paperId. Fetch paper data (questions, metadata) from backend or localStorage. Display formal academic header with college name placeholder and logo (referencing frontend/public/assets/generated/college-logo.dim_200x200.png), subject name, exam duration, and total marks. Render three sections: Section A (MCQ questions with options A/B/C/D), Section B (2 Mark and 4 Mark questions), Section C (6 Mark and 8 Marks questions) with proper sequential numbering. Include Set A/B/C/D/E switcher tabs that re-render the same questions in different randomized order (stored per set). Add 'Download PDF' button that triggers window.print() or uses a client-side library like jsPDF or react-to-pdf to export the current set as PDF. Style with academic navy blue header and clean typography."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Apply consistent professional academic visual theme across all pages",
+      "acceptanceCriteria": [
+        "All pages use Navy Blue, Light Blue, and Light Grey palette consistently.",
+        "Poppins or Inter font is loaded and applied globally.",
+        "Cards have rounded corners and soft shadows.",
+        "Sidebar collapses or becomes a hamburger menu on mobile viewports.",
+        "Buttons are rounded with hover shadow effects."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Update global stylesheet to define CSS custom properties for Primary Navy Blue (#1E3A5F), Accent Light Blue (#4A90D9), Background Very Light Grey (#F4F6F9), and white. Import Poppins or Inter font from Google Fonts. Apply base styles: body background F4F6F9, font-family Poppins or Inter, standard line-height. Define utility classes or Tailwind overrides for rounded cards (border-radius 8-12px), soft box-shadows, consistent spacing grid (16-24px margins/padding), rounded buttons with subtle shadows and hover effects. Ensure all shadcn/ui components inherit these theme colors."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind theme to include custom colors: primary (Navy Blue #1E3A5F), accent (Light Blue #4A90D9), background (Very Light Grey #F4F6F9). Set default font family to Poppins or Inter. Configure borderRadius defaults (8px, 12px), boxShadow defaults for cards and buttons, and responsive breakpoints for sidebar collapse behavior. Ensure shadcn/ui component variants use these extended theme values."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Wire generated college logo and login background images into the UI as static assets",
+      "acceptanceCriteria": [
+        "College logo is displayed on the Login page and in the paper preview header.",
+        "Login page has a visually appealing academic background.",
+        "Both assets are served from frontend/public/assets/generated."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "modify",
+          "description": "Reference the generated college logo image at frontend/public/assets/generated/college-logo.dim_200x200.png in an <img> tag at the top of the Login page. Set the background of the Login page container to use the generated background image at frontend/public/assets/generated/login-bg.dim_1920x1080.png via CSS background-image property with appropriate size and repeat settings."
+        },
+        {
+          "path": "frontend/src/pages/PaperPreviewPage.tsx",
+          "operation": "modify",
+          "description": "Reference the generated college logo image at frontend/public/assets/generated/college-logo.dim_200x200.png in the academic header section of the Paper Preview page using an <img> tag."
+        }
+      ]
+    }
+  ]
+}

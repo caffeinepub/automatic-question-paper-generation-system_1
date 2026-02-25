@@ -1,0 +1,78 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-25T08:25:18.713Z",
+  "summary": "The diff implements most of the requested requirements including a Motoko backend, all frontend pages, routing, theming, and hooks. However, several specific acceptance criteria have gaps: stable storage is not confirmed in the backend (uses mutable vars without stable keyword), the pre-seeded subjects require a manual init() call rather than being auto-seeded on deploy, the generated papers count on the dashboard reads from localStorage rather than the backend canister, and the static image assets are referenced but not actually included in the diff. Additionally, Internet Identity is used despite being explicitly forbidden.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "All data survives canister upgrades (stable storage). Variables must be declared with the 'stable' keyword.",
+      "reason": "The backend/main.mo uses plain 'var' for nextSubjectId, nextQuestionId, nextPaperId and Map.empty for subjects/questions/papers with no 'stable' keyword, meaning data will be lost on canister upgrades.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Pre-seeded engineering subjects exist on first deploy without manual invocation.",
+      "reason": "Pre-seeding is placed inside a public shared init() function that must be called explicitly. There is no automatic initialization in the actor body or system hooks to guarantee subjects exist on first deploy.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Stat cards display live counts fetched from the backend canister, including Papers Generated.",
+      "reason": "DashboardPage reads the Papers Generated count from localStorage ('qpg_papers') rather than fetching it from the backend canister, violating the requirement that all counts come from the backend.",
+      "evidence": [
+        "frontend/src/pages/DashboardPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "College logo (college-logo.dim_200x200.png) and login background (login-bg.dim_1920x1080.png) must be generated and served from frontend/public/assets/generated.",
+      "reason": "The pages reference these image paths but no actual image files appear in the added files list. The assets are referenced but not generated or included as static files.",
+      "evidence": [
+        "frontend/src/pages/LoginPage.tsx",
+        "frontend/src/pages/PaperPreviewPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Full Internet Identity provider and AuthClient-based login flow implemented via InternetIdentityProvider wrapping the app in main.tsx and a complete useInternetIdentity.ts hook.",
+      "reason": "The build request explicitly states 'Do not use Internet Identity; use simulated client-side session for login' and lists useInternetIdentity.ts as an immutable path that must not be modified. The diff adds a full II provider and AuthClient integration.",
+      "evidence": [
+        "frontend/src/main.tsx",
+        "frontend/src/hooks/useInternetIdentity.ts",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    }
+  ],
+  "confidence": 0.78,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/DashboardLayout.tsx",
+    "frontend/src/components/Sidebar.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AddQuestionsPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/GeneratePaperPage.tsx",
+    "frontend/src/pages/GeneratedPapersPage.tsx",
+    "frontend/src/pages/LoginPage.tsx",
+    "frontend/src/pages/ManageSubjectsPage.tsx",
+    "frontend/src/pages/PaperPreviewPage.tsx",
+    "frontend/src/pages/QuestionBankPage.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}
